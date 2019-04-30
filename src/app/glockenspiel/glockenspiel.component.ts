@@ -11,7 +11,7 @@ export class GlockenspielComponent implements OnInit {
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent){
-    
+    let time = event.timeStamp;
     let sound = `/assets/glockenspiel/${event.key}.wav`;
   }
 
