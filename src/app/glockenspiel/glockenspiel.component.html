@@ -1,3 +1,2 @@
-<p>
-  glockenspiel works!
-</p>
+<button mat-raised-button color="accent" (click)=swapRecord() >Record</button>
+<button mat-raised-button color="primary" *ngFor="let key of keyss" (click)=passNote(key)>{{key}}</button>
