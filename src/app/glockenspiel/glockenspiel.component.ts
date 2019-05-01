@@ -8,77 +8,32 @@ import { MusicService } from '../music.service';
 })
 export class GlockenspielComponent implements OnInit {
 
+  time: number = 0;
+
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent){
-    let time = event.timeStamp;
-    let sound = `/assets/glockenspiel/${event.key}.wav`;
+    this.time = event.timeStamp;
+    let sound = event.key;
+    this.passNote(sound);
   }
 
-    // switch(event.key){
-    //   case 'a':
-    //     this.passNote(this.keys[0]);
-    //     break;
-    //   case 's':
-    //     this.passNote(this.keys[1]);
-    //     break;
-    //   case 'd':
-    //     this.passNote(this.keys[2]);
-    //     break;
-    //   case 'f':
-    //     this.passNote(this.keys[3]);
-    //     break;
-    //   case 'g':
-    //     this.passNote(this.keys[4]);
-    //     break;
-    //   case 'h':
-    //     this.passNote(this.keys[5]);
-    //     break;
-    //   case 'j':
-    //     this.passNote(this.keys[6]);
-    //     break;
-    // }
-
+  @HostListener('click' ['$event.target'])
+  handleClickEvent(event: MouseEvent){
+    this.time = event.timeStamp;
+    let sound = event.button;
+    this.passNote(this.keys[sound]);
+  }
 
   recordOn: boolean = false;
 
-  keyss: Array<string> = ['A', 'B', 'C'];
+  keys: string[] = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '['];
 
-  keys: Object[] = [
-    {
-      note: "A",
-      src: "/assets/glockenspiel/glockenspiel-20-a3-02.wav"
-    },
-    {
-      note: "B",
-      src: "/assets/glockenspiel/glockenspiel-29-b3-02.wav"
-    },
-    {
-      note: "C",
-      src: "/assets/glockenspiel/glockenspiel-33-c4-02.wav"
-    },
-    {
-      note: "D",
-      src: "/assets/glockenspiel/glockenspiel-37-d4-02.wav"
-    },
-    {
-      note: "E",
-      src: "/assets/glockenspiel/glockenspiel-41-e4-02.wav"
-    },
-    {
-      note: "F",
-      src: "/assets/glockenspiel/glockenspiel-44-f4-02.wav"
-    },
-    {
-      note: "G",
-      src: "/assets/glockenspiel/glockenspiel-16-g3-02.wav"
-    }
-  ]
-
-  passNote(key: Object){
-    this.musicService.playNote(key);
+  passNote(key: string){
+    let instrument: string = 'glockenspiel'
+    this.musicService.playNote(key, instrument);
     if(this.recordOn == true){
-
+      this.musicService.recordNote(key, this.time, instrument);
     }
   }
 
@@ -89,8 +44,6 @@ export class GlockenspielComponent implements OnInit {
 
   constructor(private musicService: MusicService) { }
 
-  ngOnInit() {
-    console.log(document.getElementsByTagName("body"))
-  }
+  ngOnInit() {}
 
 }
