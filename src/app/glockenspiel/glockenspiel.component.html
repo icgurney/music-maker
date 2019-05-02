@@ -1,3 +1,15 @@
-<button mat-raised-button color="accent" (click)=swapRecord()>Record</button>
-<button mat-raised-button color="accent" (click)=musicService.playRecording()>Play</button>
-<button mat-raised-button color="primary" *ngFor="let key of keys" (click)=passNote(key)>{{key}}</button>
+<div>
+    <button mat-fab (click)=musicService.swapRecord() [ngClass]="{'recordOn': musicService.recordOn}">Record</button>
+    <button mat-raised-button color="accent" (click)=musicService.createTempRecording()>Play</button>
+    <mat-form-field>
+        <input matInput placeholder="Track Name" [(ngModel)]="savedTrack">
+    </mat-form-field>
+    <!-- <button mat-raised-button color="primary" (click)="saveTrack()">Save Track</button> -->
+    <!-- <mat-form-field>
+      <mat-label>Saved Tracks</mat-label>
+      <mat-option *ngFor="let track of musicService.savedRecording" [value]="track.name">
+        {{track.name}}
+      </mat-option>
+    </mat-form-field> -->
+</div>
+<button mat-raised-button color="primary" *ngFor="let key of keys" (click)=buttonClick($event) [value]="key">{{key}}</button>

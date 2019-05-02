@@ -10,6 +10,9 @@ export class GlockenspielComponent implements OnInit {
 
   time: number = 0;
 
+  savedTrack: string = "";
+
+  instrument: string = 'glockenspiel'
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent){
@@ -18,29 +21,23 @@ export class GlockenspielComponent implements OnInit {
     this.passNote(sound);
   }
 
-  @HostListener('click' ['$event.target'])
-  handleClickEvent(event: MouseEvent){
+  buttonClick(event){
     this.time = event.timeStamp;
-    let sound = event.button;
-    this.passNote(this.keys[sound]);
+    this.passNote(event.target.value);
   }
-
-  recordOn: boolean = false;
 
   keys: string[] = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '['];
 
   passNote(key: string){
-    let instrument: string = 'glockenspiel'
-    this.musicService.playNote(key, instrument);
-    if(this.recordOn == true){
-      this.musicService.recordNote(key, this.time, instrument);
+    this.musicService.playNote(key, this.instrument);
+    if(this.musicService.recordOn == true){
+      this.musicService.recordNote(key, this.time, this.instrument);
     }
   }
 
-  swapRecord(){
-    this.recordOn = !this.recordOn;
-    console.log(this.recordOn)
-  }
+  // saveTrack(){
+  //   this.musicService.saveTrack(this.savedTrack);
+  // }
 
   constructor(private musicService: MusicService) { }
 
