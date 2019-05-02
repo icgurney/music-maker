@@ -35,9 +35,9 @@ export class GlockenspielComponent implements OnInit {
     }
   }
 
-  saveTrack(){
-    this.musicService.saveTrack(this.savedTrack);
-  }
+  // saveTrack(){
+  //   this.musicService.saveTrack(this.savedTrack);
+  // }
 
   constructor(private musicService: MusicService) { }
 

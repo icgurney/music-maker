@@ -7,7 +7,7 @@ import { Track } from './models/track.model';
 })
 export class MusicService {
 
-  curRecording: Track;
+  curRecording: Note[] = [];
 
   tempRecording: Note[] = [];
 
@@ -28,7 +28,7 @@ export class MusicService {
   }
 
   recordNote(note: string, time: any, instrument: string){
-    this.curRecording.track.push({
+    this.curRecording.push({
       note: note,
       time: time,
       instrument: instrument
@@ -36,14 +36,14 @@ export class MusicService {
   }
 
   createTempRecording(){
-    this.tempRecording = [...this.curRecording.track];
+    this.tempRecording = [...this.curRecording];
     this.playRecording();
   }
 
-  saveTrack(track: string){
-    this.curRecording.name = track;
-    this.savedRecordings.push(this.curRecording)
-  }
+  // saveTrack(track: string){
+  //   this.curRecording.name = track;
+  //   this.savedRecordings.push(this.curRecording)
+  // }
 
   playRecording(){
     let note: Note = this.tempRecording.shift();
