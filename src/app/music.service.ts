@@ -1,26 +1,48 @@
 import { Injectable, HostListener } from '@angular/core';
 import { Note } from './models/note.model';
+import { Track } from './models/track.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MusicService {
 
+  curRecording: Track;
+
   tempRecording: Note[] = [];
 
-  playNote(src: string, instrument: string){
+  savedRecordings: Track[];
+
+  recordOn: boolean = false;
+
+  swapRecord(){
+    this.recordOn = !this.recordOn;
+    console.log(this.recordOn)
+  }
+
+  playNote(note: string, instrument: string){
     let audio = new Audio();
-    audio.src = `/assets/${instrument}/${src}.wav`;
+    audio.src = `/assets/${instrument}/${note}.wav`;
     audio.load();
     audio.play();
   }
 
-  recordNote(src: string, time: any, instrument: string){
-    this.tempRecording.push({
-      note: src,
+  recordNote(note: string, time: any, instrument: string){
+    this.curRecording.track.push({
+      note: note,
       time: time,
       instrument: instrument
     });
+  }
+
+  createTempRecording(){
+    this.tempRecording = [...this.curRecording.track];
+    this.playRecording();
+  }
+
+  saveTrack(track: string){
+    this.curRecording.name = track;
+    this.savedRecordings.push(this.curRecording)
   }
 
   playRecording(){
@@ -31,6 +53,7 @@ export class MusicService {
       setTimeout(this.playRecording.bind(this), timeDiff);
     }
     else{
+      this.tempRecording = [];
       return;
     }
   }
